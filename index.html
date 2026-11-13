@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FEESICKS MASTER | Physics Study</title>
+<style>
+:root{color-scheme:dark;--bg:#0c111b;--panel:#141d2b;--panel2:#192638;--line:#2d3b50;--text:#edf1f6;--muted:#aab5c3;--accent:#a9bfd9;--green:#9ac7a9;--gold:#d7c89e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 "Segoe UI",Arial,sans-serif}
+header{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;background:#101927;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{font-size:17px;font-weight:750;letter-spacing:.7px}.brand span{color:var(--accent);font-weight:500}
+.header-meta{font-size:12px;color:var(--muted)}
+main{max-width:1500px;margin:auto;padding:25px 30px 70px}
+.pagehead{margin-bottom:20px}.pagehead h1{font-size:27px;margin:0 0 5px;font-weight:750}.pagehead p{margin:0;color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:9px;align-items:center;margin:18px 0 24px}.toolbar input{width:min(450px,100%);padding:11px 13px;background:#111c2b;border:1px solid var(--line);border-radius:8px;color:var(--text);font:inherit}.toolbar button{padding:10px 13px;border:1px solid var(--line);border-radius:8px;background:#182538;color:var(--text);cursor:pointer}
+.part{margin:30px 0 45px}.part-title{font-size:50px;line-height:1.15;font-weight:850;letter-spacing:.4px;padding:0 0 14px;margin:0 0 18px;border-bottom:3px solid #52647a;color:#f1f4f8}
+.chapter{margin:17px 0 22px;border:1px solid var(--line);border-radius:9px;background:#111a28;overflow:hidden}
+.chapter-title{font-size:35px;line-height:1.2;font-weight:800;padding:15px 18px;background:#1a293c;border-bottom:1px solid #3a4b61}
+.topic{padding:11px 15px;border-bottom:1px solid #29374a}.topic:last-child{border-bottom:0}
+.row{display:flex;align-items:center;gap:14px;min-height:32px}
+.name{flex:1;min-width:0;overflow-wrap:anywhere}
+.topic-title{font-size:24px;font-weight:700;line-height:1.3}
+.leaf-title{font-size:16px;font-weight:450;color:#dce3ec}
+.number{color:#a9bfd9;font-weight:750;font-variant-numeric:tabular-nums;margin-right:10px;white-space:nowrap}
+.controls{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:0 0 auto}
+.checks{display:flex;align-items:center;gap:12px}
+.checks label{display:flex;align-items:center;gap:5px;color:#bdc7d3;font-size:12px;white-space:nowrap;cursor:pointer}
+.checks input{width:15px;height:15px;margin:0;accent-color:var(--green);cursor:pointer}
+.notes-btn{font-size:12px;padding:6px 9px;background:#202f43;border:1px solid #40516a;border-radius:7px;color:#e0e8f1;white-space:nowrap;cursor:pointer}
+.notes-btn:hover{border-color:#9bb3d0}
+.children{margin:9px 0 0 18px;padding-left:14px;border-left:1px solid #40516a}
+.topic[data-depth="1"]{background:#121d2c}.topic[data-depth="2"]{background:#111b29}.topic[data-depth="3"]{background:#101a28}
+.topic[data-depth="4"]{background:#0f1926}
+.hidden{display:none!important}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;align-items:center;justify-content:center;padding:16px}.modal.show{display:flex}
+.dialog{width:min(620px,100%);max-height:88vh;overflow:auto;background:#172235;border:1px solid #43536b;border-radius:12px;padding:19px;box-shadow:0 20px 70px #0009}
+.dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.dialog h2{font-size:19px;margin:0 0 4px}.dialog p{font-size:13px;color:var(--muted);margin:0 0 14px}
+.dialog button{padding:8px 11px;background:#22334a;border:1px solid #465a75;border-radius:7px;color:var(--text);cursor:pointer}
+.upload{border:1px dashed #586b84;border-radius:9px;padding:12px;margin:13px 0}.upload input{max-width:100%}
+.file-list{display:grid;gap:7px;margin-top:12px}.file-row{display:flex;align-items:center;gap:9px;justify-content:space-between;background:#101a29;border:1px solid #34465e;border-radius:8px;padding:9px 10px;font-size:13px}.file-name{overflow-wrap:anywhere;min-width:0;flex:1}.file-actions{display:flex;gap:6px;flex-shrink:0}.file-actions button{font-size:12px;padding:5px 8px}.empty{color:var(--muted);font-size:13px;padding:12px 0}
+@media(max-width:900px){main{padding:18px 14px 50px}.part-title{font-size:clamp(28px,7vw,50px)}.chapter-title{font-size:clamp(23px,5vw,35px)}.row{flex-wrap:wrap;gap:8px}.name{flex-basis:100%}.controls{width:100%;justify-content:flex-start;padding-left:2px}.children{margin-left:6px;padding-left:8px}.topic-title{font-size:20px}}
+@media print{body{background:white;color:#111}header,.toolbar,.controls,.notes-btn{display:none!important}main{padding:0}.part-title{font-size:30px;color:#111;border-color:#777}.chapter,.chapter-title,.topic{background:white;color:#111;border-color:#aaa}.chapter-title{font-size:24px}.topic-title{font-size:17px}.leaf-title{font-size:12px;color:#111}.number{color:#333}.part{break-before:page}.chapter{break-inside:avoid}}
+</style>
+<style>
+/* Refined, compact interface */
+header{display:none!important}
+main{padding-top:20px}
+.pagehead{margin:0 0 18px}
+.pagehead h1{font-size:25px;letter-spacing:.1px}
+.pagehead p{display:none}
+.dialog-head p{display:none}
+.upload{border:1px solid var(--line);border-radius:9px;background:#111b29;padding:12px;margin:14px 0}
+.choose-files{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border:1px solid #526781;border-radius:8px;background:#21334a;color:var(--text);font-size:14px;font-weight:600;cursor:pointer}
+.selected-names{font-size:12px;color:var(--muted);margin:8px 0}
+.primary-action{display:block;margin-top:10px;background:#dce6f1!important;color:#142033!important;border:0!important;font-weight:700}
+.saved-heading{font-size:14px;font-weight:700;margin:18px 0 8px;color:#e5ebf2}
+.file-row{background:#111b29}
+.viewer{display:none;position:fixed;inset:0;z-index:40;background:#080d15;flex-direction:column}
+.viewer.show{display:flex}
+.viewer-bar{height:54px;flex:0 0 54px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#142033;border-bottom:1px solid #34445a;gap:12px}
+#viewerName{font-size:13px;font-weight:650;overflow-wrap:anywhere}
+.viewer-bar button{background:#263951;border:1px solid #536780;color:white;border-radius:7px;padding:7px 12px}
+.viewer-body{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:auto}
+.viewer-body img{max-width:100%;max-height:100%;object-fit:contain}
+.viewer-body iframe{width:100%;height:100%;border:0;background:white}
+.viewer-note{padding:24px;color:#d6deea;text-align:center;max-width:480px;line-height:1.6}
+@media(max-width:700px){main{padding:16px 12px 45px}.pagehead h1{font-size:23px}.dialog{padding:16px}.choose-files{width:100%}}
+</style>
+
+<style>
+:root{--bg:#0c111b;--panel:#141d2b;--panel2:#192638;--line:#2d3b50;--text:#edf1f6;--muted:#aab5c3;--accent:#a9bfd9;--green:#9ac7a9;--gold:#d7c89e}
+body.light{--bg:#f3f6fa;--panel:#fff;--panel2:#eaf0f7;--line:#d2dce8;--text:#172333;--muted:#586779;--accent:#315f91;--green:#24784c;--gold:#946b16;color-scheme:light}
+body.light .chapter-title,body.light .toolbar button,body.light .notes-btn,body.light .dialog,body.light .file-row{background:var(--panel2);color:var(--text)}
+body.light .topic[data-depth="1"],body.light .topic[data-depth="2"],body.light .topic[data-depth="3"],body.light .topic[data-depth="4"]{background:#f8fafc}
+body.light .toolbar input{background:white;color:var(--text)}
+.appnav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.appnav button,.action-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px 12px;font:inherit;cursor:pointer}.appnav button.active{background:#294768;color:white;border-color:#42678e}
+.dashboard{display:grid;gap:14px;margin:12px 0 22px}.statgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.statcard,.dashcard,.library-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}.statcard b{display:block;font-size:25px}.statcard span,.muted-label{color:var(--muted);font-size:12px}.dashgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.progress-track{height:9px;border-radius:20px;background:var(--line);overflow:hidden;margin:8px 0}.progress-fill{height:100%;background:#4d9a78;border-radius:20px}.barlist{display:grid;gap:9px}.barrow{display:grid;grid-template-columns:minmax(100px,1fr) 2fr 34px;align-items:center;gap:8px;font-size:12px}.bar{height:9px;background:var(--line);border-radius:20px;overflow:hidden}.bar>i{display:block;height:100%;background:#638fbd}.recent-list,.formula-list,.pyq-list{display:grid;gap:8px}.recent-item,.formula-item{padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);font-size:13px}.section-panel{display:none}.section-panel.active{display:block}.chapter-toggle{font-size:13px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer}.chapter.collapsed>.chapter-content{display:none}.chapter-title .name{display:flex;align-items:center;gap:8px}.chapter-title .controls{margin-left:auto}.chapter-title .row{flex-wrap:wrap}.inline-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.inline-tools button{font-size:11px;padding:5px 8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:7px;cursor:pointer}.formrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.formrow input,.formrow select,.formrow textarea{min-width:0;flex:1;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit}.formrow button{padding:10px 13px;border:0;border-radius:8px;background:#315f91;color:white;font-weight:650}.small-action{font-size:11px!important;padding:5px 8px!important}.topic-extras{display:flex;gap:7px;flex-wrap:wrap;margin:7px 0 0 2px}.topic-extras button{font-size:11px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:5px 8px;border-radius:7px;cursor:pointer}.empty-state{color:var(--muted);font-size:13px;padding:14px}.chapter-title .name{font-size:inherit}
+@media(max-width:700px){.statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashgrid{grid-template-columns:1fr}.appnav button{flex:1}.barrow{grid-template-columns:95px 1fr 28px}.chapter-title .controls{width:100%;margin-left:0}.chapter-toggle{margin-left:auto}}
+</style>
+
+</head>
+<body>
+<header><div class="brand">PHYSICS <span>/ MASTER SYLLABUS</span></div></header>
+<main>
+<div class="pagehead"><h1>FEESICKS MASTER</h1></div>
+<nav class="appnav" aria-label="Main navigation">
+<button class="active" data-page="home">Home</button><button data-page="syllabusPage">Syllabus</button><button data-page="formulaPage">Formula Bank</button><button data-page="pyqPage">Question Bank</button><button id="themeToggle">☀ Light mode</button>
+</nav>
+<section id="home" class="section-panel active">
+ <div class="dashboard">
+  <div class="statgrid"><div class="statcard"><b id="overallPct">0%</b><span>Overall completion</span></div><div class="statcard"><b id="readCount">0</b><span>Topics read</span></div><div class="statcard"><b id="revisionCount">0</b><span>Topics revised</span></div></div>
+  <div class="dashgrid"><div class="dashcard"><details><summary><strong>Chapter-wise Progress</strong></summary><div id="chapterGraph" class="barlist" style="margin-top:12px"></div></details></div><div class="dashcard"><strong>Recently Studied</strong><div id="recentTopics" class="recent-list" style="margin-top:10px"></div></div></div>
+ </div>
+</section>
+<section id="syllabusPage" class="section-panel">
+ <div class="toolbar"><input id="search" placeholder="Search any chapter, topic or concept"><button id="clearSearch">Clear search</button></div>
+ <div id="syllabus"></div>
+</section>
+<section id="formulaPage" class="section-panel">
+ <h2>Formula Bank</h2>
+ <p class="muted-label">Upload PDF files and images under each topic.</p>
+ <div id="formulaTopicTree" class="library-tree"></div>
+</section>
+<section id="pyqPage" class="section-panel">
+ <h2>Question Bank</h2>
+ <p class="muted-label">Chapter-wise and topic-wise question PDFs and images.</p>
+ <div id="questionBankTree" class="library-tree"></div>
+</section>
+</main>
+<div class="modal" id="notesModal"><div class="dialog"><div class="dialog-head"><div><h2 id="modalTitle">Topic notes</h2><p id="modalSub"></p></div><button id="closeModal">Close</button></div><div class="upload"><input id="fileInput" type="file" accept="application/pdf,image/*,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,.ppt,.pptx" multiple hidden><label class="choose-files" for="fileInput">＋ Add files</label><div id="selectedNames" class="selected-names"></div><button id="uploadFiles" class="primary-action">Upload files</button></div><div class="saved-heading">Attached files</div><div id="fileList" class="file-list"></div></div></div><div class="viewer" id="fileViewer"><div class="viewer-bar"><div id="viewerName"></div><button id="closeViewer">Close</button></div><div id="viewerBody" class="viewer-body"></div></div>
+<script>
+const DATA=[{"title": "PART 01. CLASS 11 PHYSICS", "chapters": [{"title": "1.1 Physical World and Measurement", "topics": [{"title": "1.1.1 Physical World", "items": ["Scope and nature of Physics", "Physics and its relation with other sciences", "Fundamental forces of nature", "Conservation laws"]}, {"title": "1.1.2 Units and Measurements", "items": ["Fundamental and derived physical quantities", "SI units and systems of units", "Dimensions and dimensional formulae", "Dimensional analysis", "Principle of dimensional homogeneity", "Applications and limitations of dimensional analysis"]}, {"title": "1.1.3 Errors and Measurements", "items": ["Accuracy and precision", "Systematic and random errors", "Absolute, relative and percentage errors", "Error propagation", "Significant figures", "Rounding off", "Least count", "Vernier calipers", "Screw gauge", "Spherometer"]}]}, {"title": "1.2 Kinematics", "topics": [{"title": "1.2.1 Motion in a Straight Line", "items": ["Position, distance and displacement", "Speed and velocity", "Average and instantaneous velocity", "Acceleration", "Uniform and non-uniform motion", "Equations of motion", "Position-time graphs", "Velocity-time graphs", "Acceleration-time graphs"]}, {"title": "1.2.2 Motion in a Plane", "items": ["Scalars and vectors", "Vector addition and subtraction", "Resolution of vectors", "Unit vectors", "Position and displacement vectors", "Scalar product and vector product", "Relative velocity", "Motion in two dimensions"]}, {"title": "1.2.3 Projectile Motion", "items": ["Horizontal projection", "Oblique projection", "Trajectory equation", "Time of flight", "Maximum height", "Horizontal range", "Maximum range", "Projectile on an inclined plane"]}, {"title": "1.2.4 Circular Motion", "items": ["Angular displacement", "Angular velocity and acceleration", "Uniform circular motion", "Centripetal acceleration", "Centripetal force", "Banking of roads", "Conical pendulum", "Vertical circular motion"]}]}, {"title": "1.3 Laws of Motion", "topics": [{"title": "1.3.1 Newton's Laws", "items": ["Newton's first law", "Inertia and its types", "Newton's second law", "Newton's third law", "Momentum and impulse", "Conservation of linear momentum", "Free-body diagrams"]}, {"title": "1.3.2 Applications of Newton's Laws", "items": ["Connected bodies", "Tension and normal reaction", "Pulley systems", "Inclined planes", "Lift and elevator problems", "Accelerating frames", "Inertial and non-inertial frames", "Pseudo force"]}, {"title": "1.3.3 Friction", "items": ["Static friction", "Limiting friction", "Kinetic friction", "Laws of friction", "Angle of friction", "Angle of repose", "Rolling friction", "Applications of friction"]}, {"title": "1.3.4 Collisions", "items": ["Elastic collision", "Inelastic collision", "Perfectly inelastic collision", "Coefficient of restitution", "One-dimensional collision", "Two-dimensional collision", "Conservation of momentum and energy"]}]}, {"title": "1.4 Work, Energy and Power", "topics": [{"title": "1.4.1 Work", "items": ["Work done by constant force", "Work done by variable force", "Positive, negative and zero work", "Work-displacement graph", "Work done by spring force"]}, {"title": "1.4.2 Energy", "items": ["Kinetic energy", "Potential energy", "Gravitational potential energy", "Elastic potential energy", "Work-energy theorem", "Conservative and non-conservative forces", "Potential energy curves", "Equilibrium and stability"]}, {"title": "1.4.3 Conservation of Energy", "items": ["Conservation of mechanical energy", "Energy transformations", "Spring-block systems", "Vertical circular motion", "Mass-energy equivalence"]}, {"title": "1.4.4 Power", "items": ["Average and instantaneous power", "Relation between force, velocity and power", "Efficiency"]}]}, {"title": "1.5 System of Particles and Rotational Motion", "topics": [{"title": "1.5.1 Centre of Mass", "items": ["Centre of mass of two particles", "Centre of mass of multiple particles", "Centre of mass of continuous bodies", "Centre of mass of standard geometrical bodies", "Motion of centre of mass", "Conservation of momentum of a system"]}, {"title": "1.5.2 Rotational Kinematics", "items": ["Angular displacement", "Angular velocity", "Angular acceleration", "Rotational equations of motion", "Relation between linear and angular quantities"]}, {"title": "1.5.3 Torque and Angular Momentum", "items": ["Moment of force", "Torque", "Angular momentum", "Angular impulse", "Conservation of angular momentum", "Applications of angular momentum"]}, {"title": "1.5.4 Moment of Inertia", "items": ["Definition and physical significance", "Radius of gyration", "Moment of inertia of point masses", "Uniform rod", "Ring", "Disc", "Solid sphere", "Hollow sphere", "Cylinder", "Parallel-axis theorem", "Perpendicular-axis theorem"]}, {"title": "1.5.5 Rotational Dynamics", "items": ["Rotational kinetic energy", "Work and power in rotation", "Rolling motion", "Pure rolling", "Rolling with slipping", "Equilibrium of rigid bodies", "Couple and torque"]}]}, {"title": "1.6 Gravitation", "topics": [{"title": "1.6.1 Universal Gravitation", "items": ["Newton's law of gravitation", "Gravitational constant", "Superposition principle", "Gravitational force between particles"]}, {"title": "1.6.2 Gravitational Field and Potential", "items": ["Gravitational field intensity", "Field due to point mass", "Field due to spherical shell", "Field due to solid sphere", "Gravitational potential", "Potential energy", "Relation between field and potential", "Gauss's law of gravitation"]}, {"title": "1.6.3 Acceleration Due to Gravity", "items": ["Relation between G and g", "Variation of g with altitude", "Variation of g with depth", "Variation of g with latitude", "Effect of Earth's rotation"]}, {"title": "1.6.4 Satellites and Orbital Motion", "items": ["Kepler's laws", "Orbital velocity", "Time period of satellites", "Geostationary satellites", "Polar satellites", "Escape velocity", "Binding energy", "Weightlessness"]}]}, {"title": "1.7 Mechanical Properties of Solids", "topics": [{"title": "1.7.1 Elasticity", "items": ["Elastic and plastic behaviour", "Stress and strain", "Longitudinal strain", "Volume strain", "Shear strain", "Hooke's law", "Stress-strain curve", "Elastic limit"]}, {"title": "1.7.2 Elastic Moduli", "items": ["Young's modulus", "Bulk modulus", "Shear modulus", "Poisson's ratio", "Relations among elastic constants", "Elastic potential energy", "Energy density"]}]}, {"title": "1.8 Mechanical Properties of Fluids", "topics": [{"title": "1.8.1 Fluid Statics", "items": ["Pressure and density", "Pressure variation with depth", "Pascal's law", "Hydraulic lift", "Buoyancy", "Archimedes' principle", "Floatation"]}, {"title": "1.8.2 Fluid Dynamics", "items": ["Ideal and real fluids", "Streamline and turbulent flow", "Equation of continuity", "Bernoulli's theorem", "Applications of Bernoulli's theorem", "Venturimeter", "Torricelli's theorem", "Dynamic lift"]}, {"title": "1.8.3 Viscosity", "items": ["Coefficient of viscosity", "Newton's law of viscosity", "Stokes' law", "Terminal velocity", "Reynolds number", "Critical velocity", "Poiseuille's equation"]}, {"title": "1.8.4 Surface Tension", "items": ["Molecular theory", "Cohesive and adhesive forces", "Surface energy", "Surface tension and temperature", "Angle of contact", "Capillary rise and fall", "Excess pressure in liquid drops", "Excess pressure in soap bubbles"]}]}, {"title": "1.9 Thermal Properties of Matter", "topics": [{"title": "1.9.1 Temperature and Heat", "items": ["Heat and temperature", "Thermal equilibrium", "Zeroth law of thermodynamics", "Temperature scales", "Celsius, Fahrenheit and Kelvin scales"]}, {"title": "1.9.2 Thermal Expansion", "items": ["Linear expansion", "Area expansion", "Volume expansion", "Relation among expansion coefficients", "Expansion of liquids", "Anomalous expansion of water", "Thermal stress"]}, {"title": "1.9.3 Calorimetry", "items": ["Heat capacity", "Specific heat capacity", "Latent heat", "Change of state", "Principle of calorimetry", "Mixing problems"]}, {"title": "1.9.4 Heat Transfer", "items": ["Conduction", "Convection", "Radiation", "Thermal conductivity", "Newton's law of cooling", "Stefan-Boltzmann law", "Wien's displacement law"]}]}, {"title": "1.10 Thermodynamics", "topics": [{"title": "1.10.1 Basic Concepts", "items": ["Thermodynamic systems", "Open, closed and isolated systems", "State variables", "Thermodynamic equilibrium", "Equation of state", "Thermodynamic processes"]}, {"title": "1.10.2 First Law", "items": ["Internal energy", "Heat and work", "First law of thermodynamics", "Sign conventions", "Isothermal process", "Adiabatic process", "Isobaric process", "Isochoric process", "Cyclic process", "P-V diagrams", "Specific heats", "Mayer's relation"]}, {"title": "1.10.3 Heat Engines", "items": ["Heat engine", "Efficiency", "Refrigerator", "Heat pump", "Coefficient of performance", "Carnot engine", "Carnot cycle"]}, {"title": "1.10.4 Second Law", "items": ["Kelvin-Planck statement", "Clausius statement", "Reversible and irreversible processes", "Entropy", "Entropy change in thermodynamic processes"]}]}, {"title": "1.11 Kinetic Theory of Gases", "topics": [{"title": "1.11.1 Molecular Model", "items": ["Ideal gas equation", "Assumptions of kinetic theory", "Molecular motion", "Pressure exerted by gas molecules", "Kinetic interpretation of temperature"]}, {"title": "1.11.2 Molecular Speeds", "items": ["RMS speed", "Average speed", "Most probable speed", "Maxwell's velocity distribution", "Degrees of freedom", "Law of equipartition of energy", "Specific heat of gases", "Mayer's relation"]}, {"title": "1.11.3 Transport Phenomena", "items": ["Mean free path", "Collision frequency", "Viscosity of gases", "Thermal conductivity", "Diffusion"]}]}, {"title": "1.12 Oscillations", "topics": [{"title": "1.12.1 Periodic Motion", "items": ["Periodic motion", "Oscillatory motion", "Amplitude", "Time period", "Frequency", "Phase and phase difference", "Restoring force"]}, {"title": "1.12.2 Simple Harmonic Motion", "items": ["Conditions of SHM", "Differential equation", "Displacement equation", "Velocity and acceleration", "Kinetic energy", "Potential energy", "Total energy", "Phase diagrams"]}, {"title": "1.12.3 Spring Systems", "items": ["Spring-mass system", "Vertical spring", "Horizontal spring", "Springs in series", "Springs in parallel", "Effective spring constant"]}, {"title": "1.12.4 Pendulums", "items": ["Simple pendulum", "Time period", "Seconds pendulum", "Physical pendulum", "Torsional pendulum"]}, {"title": "1.12.5 Damped and Forced Oscillations", "items": ["Damping force", "Damping coefficient", "Underdamping", "Critical damping", "Overdamping", "Forced oscillations", "Resonance", "Quality factor"]}]}, {"title": "1.13 Waves", "topics": [{"title": "1.13.1 Wave Motion", "items": ["Mechanical waves", "Transverse waves", "Longitudinal waves", "Progressive waves", "Wave equation", "Wavelength and frequency", "Wave velocity", "Phase and group velocity", "Energy transport"]}, {"title": "1.13.2 Superposition of Waves", "items": ["Principle of superposition", "Interference of waves", "Stationary waves", "Nodes and antinodes", "Beats and beat frequency", "Wave packets"]}, {"title": "1.13.3 Sound Waves", "items": ["Speed of sound", "Newton's formula", "Laplace correction", "Sound intensity", "Decibel scale", "Doppler effect", "Resonance"]}, {"title": "1.13.4 Vibrating Systems", "items": ["Vibrating strings", "Fundamental frequency", "Harmonics and overtones", "Open organ pipes", "Closed organ pipes", "Resonance tubes"]}]}]}, {"title": "PART 02. CLASS 12 PHYSICS", "chapters": [{"title": "2.1 Electric Charges and Fields", "topics": [{"title": "2.1.1 Electric Charge", "items": ["Properties of electric charge", "Conservation of charge", "Quantisation of charge", "Conductors and insulators", "Charging by friction, conduction and induction"]}, {"title": "2.1.2 Coulomb's Law", "items": ["Coulomb's inverse-square law", "Electrostatic force", "Superposition principle", "Force in a system of charges", "Coulomb's law in dielectric medium"]}, {"title": "2.1.3 Electric Field", "items": ["Electric field intensity", "Field due to point charge", "Field due to system of charges", "Electric field lines", "Electric dipole", "Electric dipole moment", "Axial and equatorial fields", "Torque on electric dipole", "Potential energy of dipole"]}, {"title": "2.1.4 Electric Flux and Gauss's Law", "items": ["Electric flux", "Gaussian surface", "Gauss's law", "Integral and differential forms", "Infinite line charge", "Infinite plane sheet", "Spherical shell", "Uniformly charged solid sphere"]}]}, {"title": "2.2 Electrostatic Potential and Capacitance", "topics": [{"title": "2.2.1 Electric Potential", "items": ["Electric potential", "Potential difference", "Potential due to point charge", "Potential due to charge system", "Potential due to electric dipole", "Relation between electric field and potential", "Equipotential surfaces", "Potential energy", "Conservative nature of electrostatic field"]}, {"title": "2.2.2 Conductors", "items": ["Electrostatic equilibrium", "Charge distribution", "Electric field inside conductor", "Electrostatic shielding", "Properties of conductors"]}, {"title": "2.2.3 Capacitors", "items": ["Capacitance", "Parallel-plate capacitor", "Spherical capacitor", "Cylindrical capacitor", "Series and parallel combinations", "Energy stored", "Energy density"]}, {"title": "2.2.4 Dielectrics", "items": ["Dielectric materials", "Polarisation", "Dielectric constant", "Permittivity", "Dielectric slab", "Effect on capacitance", "Battery-connected and disconnected capacitors"]}]}, {"title": "2.3 Current Electricity", "topics": [{"title": "2.3.1 Electric Current", "items": ["Electric current", "Current density", "Drift velocity", "Mobility", "Relation between current and drift velocity"]}, {"title": "2.3.2 Ohm's Law", "items": ["Ohm's law", "Resistance and resistivity", "Conductivity", "Temperature dependence", "V-I characteristics", "Ohmic and non-ohmic conductors"]}, {"title": "2.3.3 Electrical Energy and Power", "items": ["Electrical work", "Electric power", "Joule's law of heating", "Combination of resistances", "Temperature coefficient of resistance"]}, {"title": "2.3.4 Cells and EMF", "items": ["EMF", "Terminal potential difference", "Internal resistance", "Cells in series and parallel", "Combination of cells", "Maximum power transfer"]}, {"title": "2.3.5 Circuit Laws", "items": ["Kirchhoff's laws", "Junction rule", "Loop rule", "Wheatstone bridge", "Meter bridge", "Potentiometer", "Comparison of EMFs", "Internal resistance measurement"]}, {"title": "2.3.6 RC Circuits", "items": ["Charging of capacitor", "Discharging of capacitor", "Time constant", "Exponential growth and decay"]}]}, {"title": "2.4 Moving Charges and Magnetism", "topics": [{"title": "2.4.1 Magnetic Field", "items": ["Magnetic field and field lines", "Lorentz force", "Motion of charged particles", "Circular and helical motion", "Velocity selector", "Cyclotron"]}, {"title": "2.4.2 Magnetic Force", "items": ["Force on current-carrying conductor", "Force between parallel wires", "Torque on current loop", "Magnetic dipole moment", "Moving coil galvanometer"]}, {"title": "2.4.3 Biot-Savart Law", "items": ["Biot-Savart law", "Magnetic field due to straight wire", "Circular current loop", "Magnetic field on axis of circular coil"]}, {"title": "2.4.4 Ampere's Circuital Law", "items": ["Ampere's law", "Infinite straight wire", "Solenoid", "Toroid"]}, {"title": "2.4.5 Galvanometer", "items": ["Moving coil galvanometer", "Current sensitivity", "Voltage sensitivity", "Conversion into ammeter", "Conversion into voltmeter"]}]}, {"title": "2.5 Magnetism and Matter", "topics": [{"title": "2.5.1 Bar Magnet", "items": ["Magnetic dipole", "Magnetic dipole moment", "Axial and equatorial fields", "Torque on magnetic dipole", "Potential energy"]}, {"title": "2.5.2 Earth's Magnetism", "items": ["Magnetic elements", "Declination", "Dip or inclination", "Horizontal component", "Vertical component"]}, {"title": "2.5.3 Magnetic Materials", "items": ["Diamagnetism", "Paramagnetism", "Ferromagnetism", "Magnetic susceptibility", "Magnetic permeability", "Magnetic intensity", "Magnetisation", "Hysteresis", "Retentivity and coercivity", "Curie temperature", "Soft and hard magnetic materials"]}]}, {"title": "2.6 Electromagnetic Induction", "topics": [{"title": "2.6.1 Magnetic Flux", "items": ["Magnetic flux", "Area vector", "Flux through a surface"]}, {"title": "2.6.2 Faraday's Laws", "items": ["Faraday's first law", "Faraday's second law", "Lenz's law", "Induced EMF", "Induced current", "Conservation of energy"]}, {"title": "2.6.3 Types of Induction", "items": ["Motional EMF", "Self-induction", "Mutual induction", "Coefficient of self-inductance", "Coefficient of mutual inductance"]}, {"title": "2.6.4 Inductors", "items": ["Inductance of solenoid", "Energy stored in inductor", "Magnetic energy density", "Eddy currents", "Applications of eddy currents"]}]}, {"title": "2.7 Alternating Current", "topics": [{"title": "2.7.1 AC Fundamentals", "items": ["Alternating current and voltage", "Peak value", "Average value", "RMS value", "Frequency", "Angular frequency", "Phase difference"]}, {"title": "2.7.2 AC Circuits", "items": ["Pure resistive circuit", "Pure inductive circuit", "Pure capacitive circuit", "Inductive reactance", "Capacitive reactance", "Impedance", "Phasor diagrams"]}, {"title": "2.7.3 LCR Circuits", "items": ["Series LCR circuit", "Resonance", "Resonant frequency", "Quality factor", "Bandwidth", "Power factor", "Wattless current"]}, {"title": "2.7.4 Transformers", "items": ["Principle of transformer", "Step-up and step-down transformer", "Energy losses", "Efficiency", "Electrical power transmission"]}]}, {"title": "2.8 Electromagnetic Waves", "topics": [{"title": "2.8.1 Maxwell's Contributions", "items": ["Displacement current", "Ampere-Maxwell law", "Maxwell's equations", "Electromagnetic wave generation"]}, {"title": "2.8.2 Properties of EM Waves", "items": ["Transverse nature", "Electric and magnetic field relationship", "Speed of electromagnetic waves", "Energy density", "Poynting vector", "Radiation pressure"]}, {"title": "2.8.3 Electromagnetic Spectrum", "items": ["Radio waves", "Microwaves", "Infrared", "Visible light", "Ultraviolet", "X-rays", "Gamma rays", "Sources and applications"]}]}, {"title": "2.9 Ray Optics and Optical Instruments", "topics": [{"title": "2.9.1 Reflection", "items": ["Laws of reflection", "Plane mirrors", "Spherical mirrors", "Mirror formula", "Magnification", "Image formation"]}, {"title": "2.9.2 Refraction", "items": ["Snell's law", "Refractive index", "Parallel slab", "Apparent depth", "Total internal reflection", "Critical angle", "Optical fibres"]}, {"title": "2.9.3 Lenses", "items": ["Refraction at spherical surfaces", "Thin lenses", "Lens formula", "Lens maker's formula", "Magnification", "Power of lens", "Combination of lenses"]}, {"title": "2.9.4 Prism", "items": ["Refraction through prism", "Angle of deviation", "Minimum deviation", "Refractive index", "Dispersion of light", "Angular dispersion", "Dispersive power"]}, {"title": "2.9.5 Optical Instruments", "items": ["Human eye", "Defects of vision and correction", "Simple microscope", "Compound microscope", "Astronomical telescope", "Magnifying power", "Resolving power"]}]}, {"title": "2.10 Wave Optics", "topics": [{"title": "2.10.1 Huygens' Principle", "items": ["Wavefront", "Secondary wavelets", "Huygens construction", "Reflection of wavefront", "Refraction of wavefront", "Derivation of laws of reflection and refraction"]}, {"title": "2.10.2 Interference", "items": ["Principle of superposition", "Coherent sources", "Constructive interference", "Destructive interference", "Path difference", "Phase difference", "Young's double-slit experiment", "Fringe width", "Thin-film interference", "Newton's rings"]}, {"title": "2.10.3 Diffraction", "items": ["Fresnel diffraction", "Fraunhofer diffraction", "Single-slit diffraction", "Minima and maxima", "Width of central maximum", "Diffraction grating", "Resolving power", "Rayleigh criterion"]}, {"title": "2.10.4 Polarisation", "items": ["Unpolarised light", "Plane-polarised light", "Polarisation by reflection", "Brewster's law", "Malus' law", "Polaroids", "Double refraction", "Quarter-wave and half-wave plates"]}]}, {"title": "2.11 Dual Nature of Radiation and Matter", "topics": [{"title": "2.11.1 Photoelectric Effect", "items": ["Experimental observations", "Laws of photoelectric emission", "Threshold frequency", "Work function", "Stopping potential", "Einstein's photoelectric equation", "Photoelectric current graphs"]}, {"title": "2.11.2 Matter Waves", "items": ["de Broglie hypothesis", "de Broglie wavelength", "Matter-wave properties", "Davisson-Germer experiment", "Electron diffraction"]}, {"title": "2.11.3 Compton Effect", "items": ["Compton scattering", "Wavelength shift", "Conservation of energy and momentum"]}]}, {"title": "2.12 Atoms", "topics": [{"title": "2.12.1 Atomic Models", "items": ["Thomson model", "Rutherford scattering experiment", "Rutherford atomic model", "Limitations of Rutherford model"]}, {"title": "2.12.2 Bohr Model", "items": ["Bohr's postulates", "Quantisation of angular momentum", "Radius of Bohr orbit", "Energy of electron", "Hydrogen atom spectrum", "Excitation and ionisation energy"]}, {"title": "2.12.3 Atomic Spectra", "items": ["Emission and absorption spectra", "Lyman series", "Balmer series", "Paschen series", "Brackett and Pfund series", "Rydberg formula"]}]}, {"title": "2.13 Nuclei", "topics": [{"title": "2.13.1 Nuclear Structure", "items": ["Atomic number and mass number", "Isotopes, isobars and isotones", "Nuclear size", "Nuclear density", "Nuclear composition"]}, {"title": "2.13.2 Mass and Binding Energy", "items": ["Mass defect", "Binding energy", "Binding energy per nucleon", "Binding energy curve", "Nuclear stability"]}, {"title": "2.13.3 Radioactivity", "items": ["Alpha decay", "Beta decay", "Gamma decay", "Radioactive decay law", "Decay constant", "Half-life", "Mean life", "Activity", "Q-value"]}, {"title": "2.13.4 Nuclear Energy", "items": ["Nuclear fission", "Nuclear fusion", "Chain reaction", "Nuclear reactor", "Nuclear energy applications"]}]}, {"title": "2.14 Semiconductor Electronics", "topics": [{"title": "2.14.1 Semiconductor Fundamentals", "items": ["Conductors, insulators and semiconductors", "Energy bands", "Valence and conduction bands", "Forbidden energy gap", "Intrinsic semiconductors", "Extrinsic semiconductors", "N-type and P-type semiconductors", "Majority and minority carriers", "Fermi level"]}, {"title": "2.14.2 PN Junction Diode", "items": ["Formation of PN junction", "Depletion region", "Barrier potential", "Forward bias", "Reverse bias", "V-I characteristics", "Diode equation"]}, {"title": "2.14.3 Diode Applications", "items": ["Half-wave rectifier", "Full-wave rectifier", "Bridge rectifier", "Ripple factor", "Rectifier efficiency", "Zener diode", "Voltage regulation", "LED", "Photodiode", "Solar cell"]}, {"title": "2.14.4 Transistors", "items": ["Bipolar junction transistor", "NPN and PNP", "Transistor action", "Common-base configuration", "Common-emitter configuration", "Common-collector configuration", "Input and output characteristics", "Current gains alpha and beta", "Transistor as amplifier", "Transistor as switch"]}, {"title": "2.14.5 Logic Gates", "items": ["Analog and digital signals", "Binary number system", "Decimal, octal and hexadecimal systems", "Binary arithmetic", "AND, OR and NOT gates", "NAND and NOR gates", "XOR and XNOR gates", "Boolean algebra", "De Morgan's theorem", "Universal gates", "Half adder and full adder"]}]}]}, {"title": "PART 03. MATHEMATICAL PHYSICS AND MATHEMATICAL TOOLS", "chapters": [{"title": "3.1 Algebra and Trigonometry", "topics": [{"title": "3.1.1 Algebra", "items": ["Algebraic identities", "Indices and logarithms", "Exponential functions", "Logarithmic functions", "Binomial theorem", "Infinite series"]}, {"title": "3.1.2 Trigonometry", "items": ["Trigonometric functions", "Trigonometric identities", "Compound angles", "Multiple and submultiple angles", "Inverse trigonometric functions", "Hyperbolic functions"]}, {"title": "3.1.3 Complex Numbers", "items": ["Real and imaginary parts", "Complex conjugate", "Modulus and argument", "Argand plane", "Polar representation", "Euler's formula", "De Moivre's theorem"]}]}, {"title": "3.2 Vector Algebra and Calculus", "topics": [{"title": "3.2.1 Vector Algebra", "items": ["Vector components", "Unit vectors", "Direction cosines", "Dot product", "Cross product", "Scalar triple product", "Vector triple product", "Vector identities"]}, {"title": "3.2.2 Vector Calculus", "items": ["Scalar and vector fields", "Del operator", "Gradient", "Directional derivative", "Divergence", "Curl", "Laplacian", "Line integral", "Surface integral", "Volume integral", "Gauss divergence theorem", "Stokes theorem", "Green's theorem"]}]}, {"title": "3.3 Differential and Integral Calculus", "topics": [{"title": "3.3.1 Differential Calculus", "items": ["Limits and continuity", "Ordinary differentiation", "Partial differentiation", "Total differentiation", "Chain rule", "Successive differentiation", "Maxima and minima", "Taylor and Maclaurin series"]}, {"title": "3.3.2 Integral Calculus", "items": ["Indefinite integration", "Definite integration", "Integration by parts", "Substitution", "Double integrals", "Triple integrals", "Change of variables", "Jacobian"]}]}, {"title": "3.4 Differential Equations", "topics": [{"title": "3.4.1 First-Order Equations", "items": ["Variable separable", "Homogeneous", "Linear", "Exact", "Integrating factor", "Bernoulli equation"]}, {"title": "3.4.2 Second-Order Equations", "items": ["Linear differential equations", "Constant coefficient equations", "Auxiliary equation", "Complementary function", "Particular integral", "Cauchy-Euler equation", "Physical applications"]}]}, {"title": "3.5 Matrices and Linear Algebra", "topics": [{"title": "3.5.1 Matrices", "items": ["Matrix operations", "Types of matrices", "Determinants", "Inverse of matrices", "Rank", "Simultaneous linear equations"]}, {"title": "3.5.2 Eigenvalue Problems", "items": ["Eigenvalues", "Eigenvectors", "Characteristic equation", "Diagonalisation", "Cayley-Hamilton theorem", "Applications to coupled oscillations and quantum mechanics"]}]}, {"title": "3.6 Fourier and Laplace Analysis", "topics": [{"title": "3.6.1 Fourier Series", "items": ["Periodic functions", "Fourier coefficients", "Even and odd functions", "Half-range expansions", "Square and triangular waves"]}, {"title": "3.6.2 Fourier Transform", "items": ["Fourier transform", "Inverse Fourier transform", "Properties", "Applications to wave analysis"]}, {"title": "3.6.3 Laplace Transform", "items": ["Definition", "Standard transforms", "Inverse transform", "Properties", "Applications to differential equations and circuits"]}]}, {"title": "3.7 Special Functions", "topics": [{"title": "3.7.1 Gamma and Beta Functions", "items": ["Definitions", "Properties", "Relation between Gamma and Beta functions"]}, {"title": "3.7.2 Legendre Functions", "items": ["Legendre differential equation", "Legendre polynomials", "Associated Legendre functions", "Orthogonality", "Spherical harmonics"]}, {"title": "3.7.3 Bessel Functions", "items": ["Bessel differential equation", "Bessel functions of first and second kind", "Recurrence relations", "Orthogonality"]}, {"title": "3.7.4 Hermite and Laguerre Functions", "items": ["Hermite polynomials", "Laguerre polynomials", "Associated Laguerre polynomials", "Orthogonality relations"]}]}, {"title": "3.8 Probability and Error Analysis", "topics": [{"title": "3.8.1 Statistics", "items": ["Mean, median and mode", "Variance", "Standard deviation", "Moments"]}, {"title": "3.8.2 Probability", "items": ["Basic probability", "Conditional probability", "Bayes' theorem", "Binomial distribution", "Poisson distribution", "Normal distribution"]}, {"title": "3.8.3 Error Analysis", "items": ["Absolute error", "Relative error", "Percentage error", "Error propagation", "Least-squares fitting", "Correlation and regression"]}]}]}, {"title": "PART 04. SELECTED GRADUATION-LEVEL DEPTH OF THE SAME PGT SYLLABUS", "chapters": [{"title": "4.1 Advanced Mechanics", "topics": [{"title": "4.1.1 Central Force Motion", "items": ["Central force fields", "Conservation of angular momentum", "Equation of orbit", "Effective potential", "Kepler's laws", "Rutherford scattering"]}, {"title": "4.1.2 Analytical Mechanics", "items": ["Generalised coordinates", "Degrees of freedom", "Holonomic constraints", "Non-holonomic constraints", "Virtual work", "D'Alembert's principle", "Lagrangian formulation", "Euler-Lagrange equations", "Hamiltonian", "Hamilton's canonical equations"]}, {"title": "4.1.3 Rotational Dynamics", "items": ["Inertia tensor", "Principal axes", "Euler's equations", "Gyroscopic motion", "Precession"]}, {"title": "4.1.4 Special Relativity", "items": ["Michelson-Morley experiment", "Einstein's postulates", "Lorentz transformations", "Time dilation", "Length contraction", "Relativistic velocity addition", "Mass-energy equivalence", "Energy-momentum relation"]}]}, {"title": "4.2 Advanced Thermal Physics", "topics": [{"title": "4.2.1 Thermodynamic Functions", "items": ["Entropy", "Enthalpy", "Helmholtz free energy", "Gibbs free energy", "Thermodynamic potentials", "Maxwell relations", "Joule-Thomson effect", "Clausius-Clapeyron equation"]}, {"title": "4.2.2 Statistical Physics", "items": ["Microstates and macrostates", "Boltzmann distribution", "Partition function", "Maxwell-Boltzmann statistics", "Bose-Einstein statistics", "Fermi-Dirac statistics", "Applications to ideal gases and blackbody radiation"]}]}, {"title": "4.3 Advanced Electromagnetism", "topics": [{"title": "4.3.1 Electrostatics", "items": ["Continuous charge distributions", "Electric potential and field", "Poisson equation", "Laplace equation", "Boundary conditions", "Method of images"]}, {"title": "4.3.2 Magnetostatics", "items": ["Magnetic vector potential", "Biot-Savart law", "Ampere's law", "Magnetic field in matter", "Magnetic boundary conditions"]}, {"title": "4.3.3 Maxwell's Equations", "items": ["Integral formulation", "Differential formulation", "Displacement current", "Electromagnetic wave equation", "Poynting theorem", "Poynting vector", "Energy and momentum of EM waves"]}]}, {"title": "4.4 Advanced Optics", "topics": [{"title": "4.4.1 Interference", "items": ["Fresnel biprism", "Lloyd's mirror", "Thin films", "Newton's rings", "Michelson interferometer", "Fabry-Perot interferometer"]}, {"title": "4.4.2 Diffraction", "items": ["Fresnel and Fraunhofer diffraction", "Single-slit diffraction", "Double-slit diffraction", "Diffraction grating", "Resolving power", "Rayleigh criterion", "Fresnel zones", "Zone plate"]}, {"title": "4.4.3 Polarisation", "items": ["Linear, circular and elliptical polarisation", "Double refraction", "Ordinary and extraordinary rays", "Nicol prism", "Quarter-wave plate", "Half-wave plate", "Optical activity", "Specific rotation"]}, {"title": "4.4.4 Lasers and Optical Fibres", "items": ["Spontaneous and stimulated emission", "Einstein A and B coefficients", "Population inversion", "Metastable states", "Ruby and He-Ne lasers", "Coherence", "Holography", "Numerical aperture", "Acceptance angle", "Step-index and graded-index fibres", "Attenuation and dispersion"]}]}, {"title": "4.5 Advanced Quantum and Atomic Physics", "topics": [{"title": "4.5.1 Quantum Foundations", "items": ["Wave function", "Probability interpretation", "Normalisation", "Operators", "Eigenvalues and eigenfunctions", "Expectation values", "Hermitian operators", "Commutators", "Uncertainty principle"]}, {"title": "4.5.2 Schrödinger Equation", "items": ["Time-dependent equation", "Time-independent equation", "One-dimensional potential well", "Potential barrier", "Quantum tunnelling", "Quantum harmonic oscillator", "Hydrogen atom"]}, {"title": "4.5.3 Atomic Structure", "items": ["Bohr-Sommerfeld model", "Quantum numbers", "Electron spin", "Pauli exclusion principle", "Spin-orbit coupling", "LS and jj coupling", "Normal and anomalous Zeeman effects", "Stark effect", "Selection rules"]}, {"title": "4.5.4 Matter-Radiation Interaction", "items": ["Photoelectric effect", "Compton effect", "de Broglie waves", "Davisson-Germer experiment", "Blackbody radiation", "Planck's quantum theory"]}]}, {"title": "4.6 Advanced Nuclear and Solid State Physics", "topics": [{"title": "4.6.1 Nuclear Physics", "items": ["Nuclear composition and properties", "Nuclear forces", "Mass defect", "Binding energy", "Semi-empirical mass formula", "Liquid drop model", "Nuclear shell model", "Alpha, beta and gamma decay", "Decay law", "Nuclear reactions", "Fission and fusion", "Nuclear reactor"]}, {"title": "4.6.2 Solid State Physics", "items": ["Crystal lattice", "Unit cell", "Bravais lattices", "Crystal systems", "Miller indices", "Reciprocal lattice", "Bragg's law", "X-ray diffraction", "Specific heat of solids", "Dulong-Petit law", "Einstein and Debye models", "Free electron theory", "Energy bands", "Fermi energy", "Effective mass", "Kronig-Penney model", "Metals, insulators and semiconductors", "Magnetic properties of solids", "Superconductivity", "Meissner effect", "Type-I and Type-II superconductors"]}]}, {"title": "4.7 Advanced Electronics", "topics": [{"title": "4.7.1 Semiconductor Devices", "items": ["PN junction", "Diode equation", "Rectifiers", "Zener regulation", "BJT characteristics", "Transistor biasing", "Amplifiers", "FET and MOSFET fundamentals"]}, {"title": "4.7.2 Operational Amplifiers", "items": ["Ideal op-amp", "Inverting amplifier", "Non-inverting amplifier", "Voltage follower", "Summing amplifier", "Integrator", "Differentiator", "Comparator"]}, {"title": "4.7.3 Digital Electronics", "items": ["Number systems", "Binary arithmetic", "Boolean algebra", "Logic gates", "De Morgan's laws", "Universal gates", "Half and full adders", "Flip-flops", "Registers and counters"]}, {"title": "4.7.4 Communication", "items": ["Communication system", "Transmitter and receiver", "Modulation and demodulation", "AM and FM", "Modulation index", "Bandwidth", "Sidebands", "Signal-to-noise ratio", "Ground, sky and space wave propagation"]}]}]}];
+const TICK_KEY='physics_syllabus_ticks_v3';
+let ticks={};try{ticks=JSON.parse(localStorage.getItem(TICK_KEY)||'{}')}catch(e){}
+let db=null,currentNode=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function openDB(){return new Promise((resolve,reject)=>{let req=indexedDB.open('PhysicsSyllabusTopicNotes',1);req.onupgradeneeded=()=>req.result.createObjectStore('files',{keyPath:'id'});req.onsuccess=()=>{db=req.result;resolve()};req.onerror=()=>reject(req.error)})}
+function storeFile(file){return new Promise((resolve,reject)=>{let tx=db.transaction('files','readwrite');tx.objectStore('files').put(file);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}
+function getFilesForNode(nodeId){return new Promise((resolve,reject)=>{let req=db.transaction('files').objectStore('files').getAll();req.onsuccess=()=>resolve(req.result.filter(f=>f.nodeId===nodeId));req.onerror=()=>reject(req.error)})}
+function getFile(id){return new Promise(resolve=>{let req=db.transaction('files').objectStore('files').get(id);req.onsuccess=()=>resolve(req.result)})}
+function removeFile(id){return new Promise(resolve=>{let tx=db.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=resolve})}
+function topicExtras(id,title){return `<div class="topic-extras"><button data-video="${id}" data-title="${esc(title)}">＋ Video lecture link</button></div>`}
+function renderLeaf(text,code,depth,displayCode){let id=code,st=ticks[id]||{};return `<div class="topic" data-depth="${depth}" data-search="${esc((code+' '+text).toLowerCase())}"><div class="row"><div class="name leaf-title"><span class="number">${displayCode}</span>${esc(text)}</div>${controls(id,st)}</div>${topicExtras(id,text)}</div>`}
+function controls(id,st){return `<div class="controls"><div class="checks"><label><input type="checkbox" data-id="${id}" data-k="read" ${st.read?'checked':''}>Read</label><label><input type="checkbox" data-id="${id}" data-k="questions" ${st.questions?'checked':''}>Questions</label><label><input type="checkbox" data-id="${id}" data-k="revised" ${st.revised?'checked':''}>Revised</label></div><button class="notes-btn" data-notes="${id}">＋ Notes</button></div>`}
+function renderTopic(topic,code,depth){let id=code,st=ticks[id]||{},prefix=(topic.title.match(/^([0-9]+(?:\.[0-9]+)+)\s/)||[])[1]||code;let leaves=topic.items.map((x,i)=>renderLeaf(x,code+'.'+(i+1),depth+1,prefix+'.'+(i+1))).join('');return `<div class="topic" data-depth="${depth}" data-search="${esc((code+' '+topic.title).toLowerCase())}"><div class="row"><div class="name topic-title">${esc(topic.title)}</div>${controls(id,st)}</div>${topicExtras(id,topic.title)}${leaves?`<div class="children">${leaves}</div>`:''}</div>`}
+function render(){let out=DATA.map((part,pi)=>`<section class="part"><h2 class="part-title">${esc(part.title)}</h2>${part.chapters.map((ch,ci)=>{let chapterCode=(ci+1).toString();let st=ticks['P'+(pi+1)+'-'+chapterCode]||{};return `<section class="chapter collapsed" data-chapter="${esc(ch.title)}" data-search="${esc(ch.title.toLowerCase())}"><div class="chapter-title"><div class="row"><div class="name">${esc(ch.title)}</div><button class="chapter-toggle" data-togglechapter>Expand</button>${controls('P'+(pi+1)+'-'+chapterCode,st)}</div></div><div class="chapter-content">${ch.topics.map((t,ti)=>renderTopic(t,`${chapterCode}.${ti+1}`,1)).join('')}</div></section>`}).join('')}</section>`).join('');$('syllabus').innerHTML=out;document.querySelectorAll('[data-video]').forEach(b=>{if(videos[b.dataset.video])b.textContent='▶ Open video'})}
+function showNotes(id,title){currentNode=id;$('modalTitle').textContent=title;$('modalSub').textContent='';$('fileInput').value='';$('selectedNames').textContent='';$('notesModal').classList.add('show');refreshFiles()}
+async function refreshFiles(){let files=await getFilesForNode(currentNode);$('fileList').innerHTML=files.length?files.map(f=>`<div class="file-row"><div class="file-name">${esc(f.name)}</div><div class="file-actions"><button data-openfile="${f.id}">Open / Download</button><button data-deletefile="${f.id}">Delete</button></div></div>`).join(''):'<div class="empty">No files have been added to this topic yet.</div>'}
+$('syllabus').addEventListener('change',e=>{let x=e.target;if(!x.matches('input[type=checkbox]'))return;ticks[x.dataset.id]=ticks[x.dataset.id]||{};ticks[x.dataset.id][x.dataset.k]=x.checked;localStorage.setItem(TICK_KEY,JSON.stringify(ticks));updateDashboard()});
+$('syllabus').addEventListener('click',e=>{let b=e.target.closest('[data-notes]');if(!b)return;let row=b.closest('.row'),name=row.querySelector('.name').innerText;showNotes(b.dataset.notes,name);markStudied(b.dataset.notes,name)});
+$('uploadFiles').onclick=async()=>{let fs=[...$('fileInput').files];if(!fs.length){alert('Please select one or more files first.');return}for(let file of fs){await storeFile({id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random(),nodeId:currentNode,name:file.name,type:file.type,blob:file,addedAt:Date.now()})}$('fileInput').value='';refreshFiles()};
+let activeObjectUrl=null;
+function closeFileViewer(){ $('fileViewer').classList.remove('show'); $('viewerBody').innerHTML=''; if(activeObjectUrl){URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=null;} }
+$('closeViewer').onclick=closeFileViewer;
+
+// Android WebView bridge contract:
+// AndroidBridge.beginFileTransfer(name, mimeType, byteLength)
+// AndroidBridge.appendFileChunk(base64Chunk)
+// AndroidBridge.finishFileTransfer()
+// AndroidBridge.cancelFileTransfer()
+function blobToBase64Chunk(blob){
+ return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+  reader.onload=()=>resolve(String(reader.result).split(',')[1]||'');
+  reader.onerror=()=>reject(reader.error);
+  reader.readAsDataURL(blob);
+ });
+}
+async function openThroughAndroidBridge(file,mime){
+ const bridge=window.AndroidBridge;
+ if(!bridge || typeof bridge.beginFileTransfer!=='function' ||
+    typeof bridge.appendFileChunk!=='function' ||
+    typeof bridge.finishFileTransfer!=='function') return false;
+ const chunkSize=256*1024;
+ try{
+  bridge.beginFileTransfer(file.name,mime,file.blob.size);
+  for(let offset=0;offset<file.blob.size;offset+=chunkSize){
+   const part=file.blob.slice(offset,Math.min(offset+chunkSize,file.blob.size));
+   bridge.appendFileChunk(await blobToBase64Chunk(part));
+  }
+  bridge.finishFileTransfer();
+  return true;
+ }catch(err){
+  try{if(typeof bridge.cancelFileTransfer==='function')bridge.cancelFileTransfer();}catch(_){}
+  alert('The Android file opener could not open this file. Please check the app integration.');
+  return true;
+ }
+}
+$('fileList').addEventListener('click',async e=>{
+ let o=e.target.closest('[data-openfile]'),d=e.target.closest('[data-deletefile]');
+ if(o){
+  let f=await getFile(o.dataset.openfile); if(!f)return;
+  const ext=(f.name.split('.').pop()||'').toLowerCase();
+  const mime=f.type||({'pdf':'application/pdf','ppt':'application/vnd.ms-powerpoint','pptx':'application/vnd.openxmlformats-officedocument.presentationml.presentation'}[ext]||'application/octet-stream');
+
+  // Keep PDF and image viewing inside FEESICKS. PDF.js renders PDF pages
+  // to canvas instead of relying on Android's inconsistent PDF iframe support.
+  if(activeObjectUrl){URL.revokeObjectURL(activeObjectUrl);activeObjectUrl=null;}
+  activeObjectUrl=URL.createObjectURL(f.blob);
+  $('viewerName').textContent=f.name;
+  $('fileViewer').classList.add('show');
+
+  if(mime.startsWith('image/')){
+   $('viewerBody').innerHTML=`<div class="image-viewer-tools">
+      <button id="imgZoomOut" type="button">−</button>
+      <button id="imgZoomReset" type="button">Fit</button>
+      <button id="imgZoomIn" type="button">＋</button>
+    </div><div class="image-stage"><img id="feesicksImage" src="${activeObjectUrl}" alt="${esc(f.name)}"></div>`;
+   let imageZoom=1;
+   const img=$('feesicksImage');
+   const applyImageZoom=()=>{img.style.transform=`scale(${imageZoom})`;};
+   $('imgZoomIn').onclick=()=>{imageZoom=Math.min(5,imageZoom+.25);applyImageZoom()};
+   $('imgZoomOut').onclick=()=>{imageZoom=Math.max(.25,imageZoom-.25);applyImageZoom()};
+   $('imgZoomReset').onclick=()=>{imageZoom=1;applyImageZoom()};
+  }else if(mime==='application/pdf' || ext==='pdf'){
+   $('viewerBody').innerHTML=`<div class="pdf-toolbar">
+      <button id="pdfPrev" type="button">Previous</button>
+      <span id="pdfPageLabel">Loading PDF…</span>
+      <button id="pdfNext" type="button">Next</button>
+      <button id="pdfZoomOut" type="button">−</button>
+      <button id="pdfZoomIn" type="button">＋</button>
+      <button id="pdfFit" type="button">Fit</button>
+    </div><div id="pdfError" class="pdf-error" hidden></div><div id="pdfStage" class="pdf-stage"><canvas id="pdfCanvas"></canvas></div>`;
+   renderFeesicksPdf(f.blob);
+  }else{
+   $('viewerBody').innerHTML=`<div class="viewer-note">Preview is not available for this file type.<br><br><button id="downloadFromViewer">Download file</button></div>`;
+   $('downloadFromViewer').onclick=()=>{
+    const a=document.createElement('a');a.href=activeObjectUrl;a.download=f.name;
+    document.body.appendChild(a);a.click();a.remove();
+   };
+  }
+ }
+ if(d){await removeFile(d.dataset.deletefile);refreshFiles()}
+});
+$('fileInput').addEventListener('change',()=>{$('selectedNames').textContent=[...$('fileInput').files].map(f=>f.name).join(' · ')});
+$('closeModal').onclick=()=>{$('notesModal').classList.remove('show');closeFileViewer()};
+$('search').addEventListener('input',e=>{let q=e.target.value.trim().toLowerCase();document.querySelectorAll('.topic').forEach(el=>el.classList.toggle('hidden',!!q&&!el.dataset.search.includes(q)));document.querySelectorAll('.chapter').forEach(el=>el.classList.toggle('hidden',!!q&&!el.querySelector('.topic:not(.hidden)')&&!el.dataset.search.includes(q)));document.querySelectorAll('.part').forEach(el=>el.classList.toggle('hidden',!!q&&!el.querySelector('.chapter:not(.hidden)')))});
+$('clearSearch').onclick=()=>{$('search').value='';document.querySelectorAll('.hidden').forEach(x=>x.classList.remove('hidden'))};
+
+// FEESICKS additions. Existing tick key and topic-notes database are intentionally unchanged.
+const RECENT_KEY='feesicks_recent_topics_v1', VIDEO_KEY='feesicks_video_links_v1', THEME_KEY='feesicks_theme_v1';
+let videos=JSON.parse(localStorage.getItem(VIDEO_KEY)||'{}'), recent=JSON.parse(localStorage.getItem(RECENT_KEY)||'[]');
+function allChapterNames(){return DATA.flatMap(p=>p.chapters.map(c=>c.title))}
+function topicEntries(){
+ const out=[];
+ DATA.forEach((part,pi)=>part.chapters.forEach((ch,ci)=>ch.topics.forEach((topic,ti)=>{
+  out.push({part:part.title,chapter:ch.title,topic:topic.title,id:`P${pi+1}-${ci+1}::T${ti+1}`});
+ })));
+ return out;
+}
+function countNodes(){let total=0,read=0,rev=0;DATA.forEach((p,pi)=>p.chapters.forEach((ch,ci)=>{let c='P'+(pi+1)+'-'+(ci+1);total++;if(ticks[c]?.read)read++;if(ticks[c]?.revised)rev++;ch.topics.forEach((t,ti)=>{let id=(ci+1)+'.'+(ti+1);total++;if(ticks[id]?.read)read++;if(ticks[id]?.revised)rev++;t.items.forEach((_,li)=>{let lid=id+'.'+(li+1);total++;if(ticks[lid]?.read)read++;if(ticks[lid]?.revised)rev++})})}));return {total,read,rev}}
+function updateDashboard(){
+ let c=countNodes();
+ $('overallPct').textContent=Math.round(c.read/Math.max(1,c.total)*100)+'%';
+ $('readCount').textContent=c.read;
+ $('revisionCount').textContent=c.rev;
+ let rows=DATA.flatMap((p,pi)=>p.chapters.map((ch,ci)=>{
+  let n=0,d=1+ch.topics.length;
+  if(ticks['P'+(pi+1)+'-'+(ci+1)]?.read)n++;
+  ch.topics.forEach((t,ti)=>{
+   let x=(ci+1)+'.'+(ti+1); if(ticks[x]?.read)n++;
+   d+=t.items.length;
+   t.items.forEach((_,li)=>{if(ticks[x+'.'+(li+1)]?.read)n++});
+  });
+  return {name:ch.title,pct:Math.round(n/Math.max(1,d)*100)};
+ }));
+ $('chapterGraph').innerHTML=rows.map(x=>`<div class="barrow"><span title="${esc(x.name)}">${esc(x.name.length>19?x.name.slice(0,18)+'…':x.name)}</span><div class="bar"><i style="width:${x.pct}%"></i></div><b>${x.pct}%</b></div>`).join('');
+ $('recentTopics').innerHTML=recent.length?recent.slice(0,8).map(x=>`<div class="recent-item"><strong>${esc(x.title)}</strong><div class="muted-label">${new Date(x.at).toLocaleString()}</div></div>`).join(''):'<div class="empty-state">No recent topics yet. Open a topic or its notes to see it here.</div>';
+}
+function markStudied(id,title){recent=[{id,title,at:Date.now()},...recent.filter(x=>x.id!==id)].slice(0,30);localStorage.setItem(RECENT_KEY,JSON.stringify(recent));updateDashboard()}
+function renderDocumentTree(targetId,prefix){
+ const target=$(targetId);
+ const chapters=DATA.flatMap((p,pi)=>p.chapters.map((ch,ci)=>({part:p.title,chapter:ch,pi,ci})));
+ target.innerHTML=chapters.map(({part,chapter,pi,ci})=>{
+  const chapterId=`${prefix}::P${pi+1}-C${ci+1}`;
+  const topics=chapter.topics.map((t,ti)=>{
+   const nodeId=`${prefix}::P${pi+1}-C${ci+1}-T${ti+1}`;
+   return `<details class="library-topic"><summary>${esc(t.title)}</summary><div class="library-content">
+    <label><strong>Upload PDF or images</strong><br><input type="file" accept="application/pdf,image/*" multiple data-library-input="${esc(nodeId)}"></label>
+    <button data-library-upload="${esc(nodeId)}">Save files</button>
+    <div class="library-file-list" data-library-list="${esc(nodeId)}"><span class="muted-label">Loading files...</span></div>
+   </div></details>`;
+  }).join('');
+  return `<details class="library-group"><summary>${esc(chapter.title)}</summary><div class="library-content"><div class="muted-label">${esc(part)}</div>${topics}</div></details>`;
+ }).join('');
+ target.querySelectorAll('[data-library-list]').forEach(el=>loadLibraryFiles(el.dataset.libraryList,prefix));
+}
+async function loadLibraryFiles(nodeId,prefix){
+ const el=document.querySelector(`[data-library-list="${CSS.escape(nodeId)}"]`);
+ if(!el)return;
+ const files=await getFilesForNode(nodeId);
+ el.innerHTML=files.length?files.map(f=>`<div class="file-row"><span class="file-name">${esc(f.name)}</span><span class="file-actions"><button data-openfile="${f.id}">Open</button><button data-deletefile="${f.id}" data-library-delete="${esc(nodeId)}">Delete</button></span></div>`).join(''):'<div class="empty-state">No files uploaded yet.</div>';
+}
+async function uploadLibraryFiles(nodeId,input){
+ const files=[...input.files];
+ if(!files.length){alert('Please select one or more PDF files or images.');return}
+ for(const file of files){
+  await storeFile({id:crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random(),nodeId,name:file.name,type:file.type,blob:file,addedAt:Date.now()});
+ }
+ input.value='';
+ await loadLibraryFiles(nodeId);
+}
+function showPage(id){
+ document.querySelectorAll('.section-panel').forEach(x=>x.classList.toggle('active',x.id===id));
+ document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+ if(id==='home')updateDashboard();
+ if(id==='formulaPage')renderDocumentTree('formulaTopicTree','FORMULA');
+ if(id==='pyqPage')renderDocumentTree('questionBankTree','QUESTIONBANK');
+}
+document.querySelector('.appnav').addEventListener('click',e=>{let b=e.target.closest('[data-page]');if(b)showPage(b.dataset.page)});
+$('themeToggle').onclick=()=>{let light=!document.body.classList.contains('light');document.body.classList.toggle('light',light);localStorage.setItem(THEME_KEY,light?'light':'dark');$('themeToggle').textContent=light?'☾ Dark mode':'☀ Light mode'};
+if(localStorage.getItem(THEME_KEY)==='light'){$('themeToggle').textContent='☾ Dark mode';document.body.classList.add('light')}
+$('syllabus').addEventListener('click',e=>{
+ let t=e.target.closest('[data-togglechapter]');
+ if(t){let ch=t.closest('.chapter');ch.classList.toggle('collapsed');t.textContent=ch.classList.contains('collapsed')?'Expand':'Collapse';return}
+ let study=e.target.closest('[data-study]');
+ if(study){markStudied(study.dataset.study,study.dataset.title);study.textContent='Studied ✓';return}
+ let v=e.target.closest('[data-video]');
+ if(v){let old=videos[v.dataset.video]||'';let url=prompt('Paste a YouTube or lecture URL:',old);if(url===null)return;if(url.trim()){videos[v.dataset.video]=url.trim()}else{delete videos[v.dataset.video]}localStorage.setItem(VIDEO_KEY,JSON.stringify(videos));v.textContent=videos[v.dataset.video]?'▶ Open video':'＋ Video lecture link';if(videos[v.dataset.video])window.open(videos[v.dataset.video],'_blank','noopener');return}
+});
+document.addEventListener('click',async e=>{
+ const upload=e.target.closest('[data-library-upload]');
+ if(upload){const nodeId=upload.dataset.libraryUpload;const input=document.querySelector(`[data-library-input="${CSS.escape(nodeId)}"]`);if(input)await uploadLibraryFiles(nodeId,input);return}
+ const deleteFile=e.target.closest('[data-deletefile][data-library-delete]');
+ if(deleteFile){await removeFile(deleteFile.dataset.deletefile);await loadLibraryFiles(deleteFile.dataset.libraryDelete);return}
+});
+const oldRender=render;
+render=function(){oldRender();document.querySelectorAll('.chapter').forEach(ch=>{ch.classList.add('collapsed');const b=ch.querySelector('[data-togglechapter]');if(b)b.textContent='Expand'});updateDashboard();};
+(async()=>{await openDB();render()})();
+</script>
+<style id="feesicks-light-contrast-fix">
+body.light, body.light #app, body.light main, body.light header,
+body.light .section-panel, body.light .part, body.light .chapter,
+body.light .chapter-content, body.light .topic, body.light .children,
+body.light .dashboard, body.light .dashcard, body.light .statcard,
+body.light .library-tree, body.light .library-group, body.light .library-topic,
+body.light .library-content, body.light .modal, body.light .dialog,
+body.light .viewer, body.light .viewer-body {
+  color:#172333 !important;
+}
+body.light .muted-label, body.light .statcard span,
+body.light .header-meta, body.light .native-note,
+body.light .empty, body.light .empty-state,
+body.light .recent-item .muted-label {
+  color:#35465a !important;
+}
+body.light .number { color:#244b75 !important; }
+body.light .chapter-title, body.light .topic,
+body.light .topic[data-depth], body.light .dashcard,
+body.light .statcard, body.light .library-group,
+body.light .library-topic, body.light .file-row {
+  color:#172333 !important;
+}
+body.light .checks label, body.light .checks,
+body.light .controls, body.light .row, body.light .name,
+body.light .topic-title, body.light .leaf-title,
+body.light .part-title, body.light .chapter-title,
+body.light .library-group summary, body.light .library-topic summary {
+  color:#172333 !important;
+}
+body.light button, body.light input, body.light select,
+body.light textarea, body.light label, body.light summary,
+body.light .toolbar button, body.light .appnav button,
+body.light .notes-btn, body.light .chapter-toggle {
+  color:#172333 !important;
+}
+body.light input::placeholder, body.light textarea::placeholder {
+  color:#536477 !important; opacity:1 !important;
+}
+</style>
+\n
+<style id="feesicks-modal-theme-fix">
+/* Dark theme: light text on dark surfaces */
+body:not(.light) .dialog,
+body:not(.light) .dialog-head,
+body:not(.light) .saved-heading,
+body:not(.light) .file-list,
+body:not(.light) .file-row {
+  color:#edf1f6 !important;
+}
+body:not(.light) .upload {
+  background:#111b29 !important;
+  color:#edf1f6 !important;
+}
+body:not(.light) .choose-files,
+body:not(.light) .selected-names,
+body:not(.light) .empty,
+body:not(.light) .file-name,
+body:not(.light) .file-actions button {
+  color:#edf1f6 !important;
+}
+body:not(.light) .choose-files,
+body:not(.light) .file-actions button {
+  background:#21334a !important;
+  border-color:#526781 !important;
+}
+
+/* Light theme: dark text on every light surface */
+body.light .modal .dialog,
+body.light .modal .dialog *:not(button):not(input),
+body.light .modal .dialog-head,
+body.light .modal .saved-heading,
+body.light .modal .file-list,
+body.light .modal .file-row {
+  color:#172333 !important;
+}
+body.light .modal .dialog {
+  background:#ffffff !important;
+  border-color:#cbd5e1 !important;
+}
+body.light .modal .upload {
+  background:#eaf0f7 !important;
+  border-color:#c4d1df !important;
+  color:#172333 !important;
+}
+body.light .modal .choose-files,
+body.light .modal .selected-names,
+body.light .modal .empty,
+body.light .modal .file-name {
+  color:#172333 !important;
+}
+body.light .modal .choose-files,
+body.light .modal .file-actions button {
+  background:#dce6f1 !important;
+  color:#172333 !important;
+  border:1px solid #9aacc0 !important;
+}
+body.light .modal .primary-action {
+  background:#315f91 !important;
+  color:#ffffff !important;
+}
+body.light .modal .dialog-head button {
+  background:#dce6f1 !important;
+  color:#172333 !important;
+  border:1px solid #9aacc0 !important;
+}
+body.light .modal input,
+body.light .modal textarea {
+  color:#172333 !important;
+  background:#ffffff !important;
+}
+body.light .modal input::placeholder,
+body.light .modal textarea::placeholder {
+  color:#536477 !important;
+}
+</style>
+
+
+<style id="feesicks-in-app-file-viewer">
+#fileViewer { background:#080d15; }
+#fileViewer .viewer-body { width:100%; height:100%; overflow:auto; }
+#fileViewer .viewer-body iframe {
+  display:block; width:100%; height:100%; min-height:0;
+  border:0; background:#fff;
+}
+#fileViewer .viewer-body img {
+  display:block; max-width:100%; max-height:100%;
+  width:auto; height:auto; object-fit:contain;
+}
+#fileViewer .viewer-note button {
+  margin-top:12px; padding:10px 16px; border-radius:8px;
+  border:1px solid #536780; background:#263951; color:#fff;
+}
+body.light #fileViewer { background:#eef2f7; }
+body.light #fileViewer .viewer-bar {
+  background:#fff; color:#172333; border-color:#cbd5e1;
+}
+body.light #fileViewer .viewer-bar button {
+  background:#dce6f1; color:#172333; border-color:#9aacc0;
+}
+@media (max-width:700px) {
+  #fileViewer { position:fixed; inset:0; }
+  #fileViewer .viewer-bar { min-height:54px; }
+}
+</style>
+
+
+<script>
+let feesicksPdfDoc=null, feesicksPdfPage=1, feesicksPdfScale=1;
+let feesicksPdfRenderTask=null, feesicksPdfBlobUrl=null;
+function loadFeesicksPdfJs(){
+ return new Promise((resolve,reject)=>{
+  if(window.pdfjsLib){resolve(window.pdfjsLib);return;}
+  const script=document.createElement('script');
+  script.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload=()=>{
+   if(!window.pdfjsLib){reject(new Error('PDF.js did not initialise'));return;}
+   window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+   resolve(window.pdfjsLib);
+  };
+  script.onerror=()=>reject(new Error('Could not load the PDF rendering library. Connect to the internet and try again.'));
+  document.head.appendChild(script);
+ });
+}
+async function renderFeesicksPdf(blob){
+ const errorBox=$('pdfError'),label=$('pdfPageLabel'),canvas=$('pdfCanvas');
+ errorBox.hidden=true;label.textContent='Loading PDF…';
+ try{
+  const pdfjs=await loadFeesicksPdfJs();
+  const data=await blob.arrayBuffer();
+  feesicksPdfDoc=await pdfjs.getDocument({data:new Uint8Array(data)}).promise;
+  feesicksPdfPage=1;feesicksPdfScale=1;
+  await drawFeesicksPdfPage();
+  $('pdfPrev').onclick=async()=>{if(feesicksPdfPage>1){feesicksPdfPage--;await drawFeesicksPdfPage()}};
+  $('pdfNext').onclick=async()=>{if(feesicksPdfPage<feesicksPdfDoc.numPages){feesicksPdfPage++;await drawFeesicksPdfPage()}};
+  $('pdfZoomIn').onclick=async()=>{feesicksPdfScale=Math.min(3,feesicksPdfScale+.2);await drawFeesicksPdfPage()};
+  $('pdfZoomOut').onclick=async()=>{feesicksPdfScale=Math.max(.5,feesicksPdfScale-.2);await drawFeesicksPdfPage()};
+  $('pdfFit').onclick=async()=>{feesicksPdfScale=1;await drawFeesicksPdfPage(true)};
+ }catch(err){
+  label.textContent='PDF could not be displayed';
+  errorBox.hidden=false;
+  errorBox.textContent=(err && err.message ? err.message : 'Unable to open this PDF.')+' You can close this viewer and try again after checking your internet connection.';
+ }
+}
+async function drawFeesicksPdfPage(fitWidth=false){
+ if(!feesicksPdfDoc)return;
+ if(feesicksPdfRenderTask){try{feesicksPdfRenderTask.cancel()}catch(e){}}
+ const page=await feesicksPdfDoc.getPage(feesicksPdfPage);
+ const stage=$('pdfStage'),canvas=$('pdfCanvas');
+ let viewport=page.getViewport({scale:1});
+ let scale=feesicksPdfScale;
+ if(fitWidth){
+  const available=Math.max(260,stage.clientWidth-24);
+  scale=Math.min(2.5,available/viewport.width);
+ }
+ viewport=page.getViewport({scale});
+ const ratio=window.devicePixelRatio||1;
+ const ctx=canvas.getContext('2d',{alpha:false});
+ canvas.width=Math.floor(viewport.width*ratio);
+ canvas.height=Math.floor(viewport.height*ratio);
+ canvas.style.width=viewport.width+'px';
+ canvas.style.height=viewport.height+'px';
+ ctx.setTransform(ratio,0,0,ratio,0,0);
+ feesicksPdfRenderTask=page.render({canvasContext:ctx,viewport});
+ try{await feesicksPdfRenderTask.promise}catch(e){if(e.name!=='RenderingCancelledException')throw e}
+ $('pdfPageLabel').textContent=`Page ${feesicksPdfPage} of ${feesicksPdfDoc.numPages}`;
+ $('pdfPrev').disabled=feesicksPdfPage<=1;
+ $('pdfNext').disabled=feesicksPdfPage>=feesicksPdfDoc.numPages;
+}
+</script>
+
+
+<style id="feesicks-pdfjs-viewer-css">
+#fileViewer .viewer-body {display:flex;flex-direction:column;min-height:0;}
+.pdf-toolbar,.image-viewer-tools {
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  padding:9px;background:#17263a;border-bottom:1px solid #40536d;flex-shrink:0;
+}
+.pdf-toolbar button,.image-viewer-tools button {
+  border:1px solid #60758f;border-radius:7px;padding:7px 12px;
+  background:#263b56;color:#f3f6fa;font-weight:600;
+}
+.pdf-toolbar button:disabled {opacity:.4}
+#pdfPageLabel {color:#f3f6fa;font-size:14px;padding:0 6px}
+.pdf-stage,.image-stage {
+  flex:1;min-height:0;overflow:auto;display:flex;align-items:flex-start;
+  justify-content:center;padding:14px;background:#202a38;
+}
+#pdfCanvas {display:block;max-width:none;background:#fff;box-shadow:0 2px 12px #0007}
+.pdf-error {padding:16px;margin:12px;background:#fff0f0;color:#8b1c1c;border-radius:8px}
+.image-stage {align-items:center}
+.image-stage img {max-width:100%;max-height:100%;object-fit:contain;transform-origin:center;transition:transform .12s}
+body.light .pdf-toolbar,body.light .image-viewer-tools {background:#e4ebf3;border-color:#c5d0dd}
+body.light .pdf-toolbar button,body.light .image-viewer-tools button {background:#fff;color:#172333;border-color:#9aacc0}
+body.light #pdfPageLabel {color:#172333}
+body.light .pdf-stage {background:#dce4ed}
+@media(max-width:700px){
+ .pdf-toolbar {gap:5px;padding:7px}
+ .pdf-toolbar button {padding:7px 9px;font-size:13px}
+ .pdf-stage {justify-content:flex-start}
+}
+</style>
+
+</body></html>
