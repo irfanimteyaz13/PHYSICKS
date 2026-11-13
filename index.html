@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <link rel="manifest" href="./manifest.json">
 <title>FEESICKS MASTER | Physics Study</title>
 <style>
 :root{color-scheme:dark;--bg:#0c111b;--panel:#141d2b;--panel2:#192638;--line:#2d3b50;--text:#edf1f6;--muted:#aab5c3;--accent:#a9bfd9;--green:#9ac7a9;--gold:#d7c89e}
@@ -551,4 +552,12 @@ body.light .pdf-stage {background:#dce4ed}
 }
 </style>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js")
+      .catch(error => console.error("Service Worker Error:", error));
+  });
+}
+</script>
 </body></html>
